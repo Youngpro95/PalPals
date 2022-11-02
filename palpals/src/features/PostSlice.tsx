@@ -18,7 +18,6 @@ export const PostContentAsync = createAsyncThunk(
         return response;
       })
       .catch((error) => {
-        console.log(error);
         return error.response;
       });
   }
@@ -36,26 +35,30 @@ export interface postContentType {
   data: postData[];
 }
 
-const initialState: postContentType =  
-{
-  data : [{
-    authorId: null,
-    content: null,
-    createdAt: null,
-    id: null,
-    title: null,
-  }],
+const initialState: postContentType = {
+  data: [
+    {
+      authorId: null,
+      content: null,
+      createdAt: null,
+      id: null,
+      title: null,
+    },
+  ],
 };
 
 export const writePosts = createSlice({
   name: "write",
   initialState,
   reducers: {
-    onPost: (state,action : PayloadAction<any>) => {
+    onPost: (state, action: PayloadAction<any>) => {
       state.data.push(action.payload.data.response);
-        console.log(state.data);
+      console.log(state.data);
       // state.authenticated = false;
       // state.nickname =''
+    },
+    onReset: (state) => {
+      state.data = [];
     },
   },
   extraReducers: (builder) => {
@@ -68,11 +71,7 @@ export const writePosts = createSlice({
   },
 });
 
-export const { onPost } = writePosts.actions;
+export const { onPost, onReset } = writePosts.actions;
 export const postData = (state: RootState) => state.write.data;
-// export const authenticated = (state: RootState) =>
-//   state.login.authenticated;
-// export const nicknameData = (state: RootState) => state.login.nickname;
-// export const userId = (state: RootState) => state.kakaoLogin.userId;
 
 export default writePosts.reducer;

@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useAppDispatch } from "../../app/hooks";
 import { LoginAsync } from "../../features/LoginSlice";
 
@@ -123,18 +121,6 @@ const PasswordArea = styled.section`
     font-size: 16px;
     margin-left: -260px;
   }
-  /* input {
-    border: 1px solid #ccc;
-    width: 320px;
-    height: 48px;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 56px;
-    padding-left: 15px;
-    &:focus {
-      outline: 2px solid #34a853;
-    }
-  } */
 `;
 
 const LoginArea = styled.section`
@@ -170,27 +156,6 @@ const Member = styled.section`
     &:hover {
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
         0 2px 10px 0 rgba(0, 0, 0, 0.12);
-    }
-    cursor: pointer;
-  }
-`;
-
-const BookingCheck = styled.section`
-  text-align: center;
-  button {
-    width: 320px;
-    height: 48px;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bolder;
-    background-color: #ccc;
-    color: white;
-    margin-top: 48px;
-    &:hover {
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
-        0 2px 10px 0 rgba(0, 0, 0, 0.12);
-      background-color: black;
-      color: white;
     }
     cursor: pointer;
   }

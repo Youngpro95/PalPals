@@ -1,31 +1,24 @@
-import React, { useState, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
-import axios from 'axios';
-import { useNavigate } from 'react-router';
-import { useAppDispatch } from '../../app/hooks';
-import { signUpAsync } from '../../features/LoginSlice';
+import { useRef } from "react";
+import { useForm } from "react-hook-form";
+import styled from "styled-components";
+import { useNavigate } from "react-router";
+import { useAppDispatch } from "../../app/hooks";
+import { signUpAsync } from "../../features/LoginSlice";
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const passwordRef = useRef<HTMLInputElement | null>(null);
   const {
     register,
     handleSubmit,
     getValues,
-    setValue,
-    watch,
     formState: { errors },
   } = useForm();
   const onSubmit = (formData: any) => {
-    dispatch(signUpAsync(formData)).then((res)=>res.meta.requestStatus === 'fulfilled' && navigate(-1))
-  };
-  const passwordRef = useRef<HTMLInputElement | null>(null);
-
-  const isError = () => {
-    Object.keys(errors).length === 0 && alert('회원가입이 완료되었습니다.')
-      navigate(-1);
+    dispatch(signUpAsync(formData)).then(
+      (res) => res.meta.requestStatus === "fulfilled" && navigate(-1)
+    );
   };
   return (
     <WrapContainer>
@@ -36,9 +29,9 @@ const SignUp = () => {
             type="text"
             placeholder="이메일"
             style={{
-              outline: errors.email ? '2px solid red' : '',
+              outline: errors.email ? "2px solid red" : "",
             }}
-            {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
           />
           {errors.email && <ErrorMessage>이메일 확인</ErrorMessage>}
         </InputBox>
@@ -47,7 +40,7 @@ const SignUp = () => {
           <InputStyle
             type="password"
             placeholder="비밀번호"
-            {...register('password', {
+            {...register("password", {
               required: true,
               pattern: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/,
             })}
@@ -64,13 +57,13 @@ const SignUp = () => {
             type="password"
             placeholder="비밀번호 확인"
             style={{
-              outline: errors.confirmPassword ? '2px solid red' : '',
+              outline: errors.confirmPassword ? "2px solid red" : "",
             }}
-            {...register('confirmPassword', {
-              validate: (value: string) => getValues('password') === value,
+            {...register("confirmPassword", {
+              validate: (value: string) => getValues("password") === value,
             })}
           />
-          {passwordRef.current?.value !== getValues('password')}
+          {passwordRef.current?.value !== getValues("password")}
           {errors.confirmPassword && (
             <ErrorMessage>비밀번호를 확인해 주세요.</ErrorMessage>
           )}
@@ -79,19 +72,21 @@ const SignUp = () => {
           <NameStyle>닉네임</NameStyle>
           <InputStyle
             placeholder="이름을 적어주세요"
-            style={{ outline: errors.nickname ? '2px solid red' : '' }}
-            {...register('nickname', {
+            style={{ outline: errors.nickname ? "2px solid red" : "" }}
+            {...register("nickname", {
               required: true,
               minLength: 2,
               valueAsNumber: false,
             })}
           />
-          {errors.nickname && <ErrorMessage>닉네임을 입력해주세요.</ErrorMessage>}
+          {errors.nickname && (
+            <ErrorMessage>닉네임을 입력해주세요.</ErrorMessage>
+          )}
         </InputBox>
         {Object.keys(errors).length !== 0 ? (
           <SubmitFailedButton>가입하기</SubmitFailedButton>
         ) : (
-          <SubmitButton type={'submit'}>가입하기</SubmitButton>
+          <SubmitButton type={"submit"}>가입하기</SubmitButton>
         )}
       </Form>
     </WrapContainer>

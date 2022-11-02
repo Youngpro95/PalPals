@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -9,16 +8,15 @@ const Write = () => {
   const {
     register,
     handleSubmit,
-    getValues,
-    setValue,
-    watch,
     formState: { errors },
   } = useForm();
   const dispatch = useAppDispatch();
   const onSubmit = (formData: any) => {
     console.log(formData);
     dispatch(PostContentAsync(formData)).then((res) => {
-      return res.payload.status === 201 ? (navigate(-1), alert("게시글이 등록되었습니다.")) : "";
+      return res.payload.status === 201
+        ? (navigate(-1), alert("게시글이 등록되었습니다."))
+        : "";
     });
   };
   const navigate = useNavigate();
