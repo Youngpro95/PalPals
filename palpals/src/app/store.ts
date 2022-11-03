@@ -1,6 +1,6 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
-import palpalsLoginReducer from '../features/LoginSlice';
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import palpalsLoginReducer from "../features/LoginSlice";
 import {
   FLUSH,
   REHYDRATE,
@@ -8,13 +8,13 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist';
-import writePostsReducer from '../features/PostSlice';
+} from "redux-persist";
+import writePostsReducer from "../features/PostSlice";
 
 export const store = configureStore({
   reducer: {
-    login : palpalsLoginReducer,
-    write : writePostsReducer
+    login: palpalsLoginReducer,
+    write: writePostsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -10,7 +10,8 @@ import WritePage from "./page/write/WritePage";
 const App = () => {
   const dispatch = useAppDispatch();
   const loggedInfo = () => {
-    sessionStorage.getItem("access_token") && dispatch(getUserAsync(sessionStorage.getItem("access_token") as string));
+    sessionStorage.getItem("access_token") &&
+      dispatch(getUserAsync(sessionStorage.getItem("access_token") as string));
   };
   return (
     <>

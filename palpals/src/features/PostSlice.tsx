@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import axios from "axios";
+import { customAxios } from "../lib/customAxios";
 
 interface postsFormData {
   title: string;
@@ -10,21 +11,30 @@ interface postsFormData {
 export const PostContentAsync = createAsyncThunk(
   "POST_CONTENT",
   async (formData: postsFormData, thunkAPI) => {
-    return await axios({
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
-      },
-      url: "http://ec2-3-37-207-126.ap-northeast-2.compute.amazonaws.com:9999/api/posts",
-      method: "post",
-      data: formData,
-    })
-      .then((response) => {
-        return response;
+    return await customAxios
+      .post("/posts", formData)
+      .then((res) => {
+        return res;
       })
       .catch((error) => {
         return error.response;
       });
+
+    // axios({
+    //   headers: {
+    //     "Content-Type": "application/x-www-form-urlencoded",
+    //     Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+    //   },
+    //   url: "http://ec2-3-37-207-126.ap-northeast-2.compute.amazonaws.com:9999/api/posts",
+    //   method: "post",
+    //   data: formData,
+    // })
+    //   .then((response) => {
+    //     return response;
+    //   })
+    //   .catch((error) => {
+    //     return error.response;
+    //   });
   }
 );
 

@@ -1,36 +1,28 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import axios from "axios";
-
+import { customAxios } from "../lib/customAxios";
 interface loginDataType {
   email: string;
   password: string;
 }
-interface signUpDataType{
-  email : string
-  password : string
-  confirmPassword : string
-  nickname : string
+interface signUpDataType {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  nickname: string;
 }
 
 export const LoginAsync = createAsyncThunk(
   "POST_LOGIN",
   async (formData: loginDataType, thunkAPI) => {
-    return await axios({
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Access-Control-Allow-Origin": "*",
-      },
-      url: "http://ec2-3-37-207-126.ap-northeast-2.compute.amazonaws.com:9999/api/users/login",
-      method: "post",
-      data: formData,
-    })
+    return await customAxios
+      .post("/users/login", formData)
       .then((response) => {
         thunkAPI.dispatch(getUserAsync(response.data.response));
         return response;
       })
       .catch((error) => {
-        console.log(error);
         return error.response;
       });
   }
@@ -38,19 +30,12 @@ export const LoginAsync = createAsyncThunk(
 export const getUserAsync = createAsyncThunk(
   "GET_USERINFO",
   async (token: string) => {
-    return await axios({
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: `Bearer ${token}`,
-      },
-      url: "http://ec2-3-37-207-126.ap-northeast-2.compute.amazonaws.com:9999/api/users",
-      method: "get",
-    })
+    return await customAxios
+      .get("/users")
       .then((response) => {
         return response.data.response;
       })
       .catch((error) => {
-        console.log(error);
         return error.response;
       });
   }
@@ -58,21 +43,12 @@ export const getUserAsync = createAsyncThunk(
 export const signUpAsync = createAsyncThunk(
   "POST_SIGNUP",
   async (formData: signUpDataType) => {
-    return await axios({
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Access-Control-Allow-Origin": "*",
-      },
-      url: "http://ec2-3-37-207-126.ap-northeast-2.compute.amazonaws.com:9999/api/users/register",
-      method: "post",
-      data: formData,
-    })
+    return await customAxios
+      .post("/users/register", formData)
       .then((response) => {
-        response.status === 201 && alert("회원가입이 완료되었습니다.");
         return response.status;
       })
       .catch((error) => {
-        error.response.status === 409 && alert("이메일이 중복됩니다.");
         return error.response.status;
       });
   }

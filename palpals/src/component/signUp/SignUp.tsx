@@ -4,11 +4,11 @@ import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { useAppDispatch } from "../../app/hooks";
 import { signUpAsync } from "../../features/LoginSlice";
-interface formDataType{
-  email : string
-  password : string
-  confirmPassword : string
-  nickname : string
+interface formDataType {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  nickname: string;
 }
 
 const SignUp = () => {
@@ -21,9 +21,9 @@ const SignUp = () => {
     getValues,
     formState: { errors },
   } = useForm<formDataType>();
-  const onSubmit : SubmitHandler<formDataType>= (formData) => {
+  const onSubmit: SubmitHandler<formDataType> = (formData) => {
     dispatch(signUpAsync(formData)).then(
-      (res) => res.meta.requestStatus === "fulfilled" && navigate(-1)
+      (res) => res.payload === 201 ? (alert("회원가입이 완료되었습니다."), navigate(-1))  : alert("이메일이 중복됩니다.")
     );
   };
   return (
