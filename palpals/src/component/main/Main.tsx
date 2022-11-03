@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -13,6 +13,7 @@ const Main = () => {
   const nickname = useAppSelector(nicknameData);
   const contentData = useAppSelector(postDatas);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const onClickLogout = () => {
     sessionStorage.removeItem("access_token");
     dispatch(onLogout());
@@ -20,7 +21,7 @@ const Main = () => {
     alert("로그아웃 되었습니다.");
   };
   const onWrite = (e: any) => {
-    return !auth && (alert("로그인 해주세요"), e.preventDefault());
+    return !auth && (alert("로그인 해주세요"), navigate('/login'), e.preventDefault());
   };
   return (
     <>
