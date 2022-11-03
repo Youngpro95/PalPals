@@ -1,10 +1,21 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import axios from "axios";
 
+interface loginDataType {
+  email: string;
+  password: string;
+}
+interface signUpDataType{
+  email : string
+  password : string
+  confirmPassword : string
+  nickname : string
+}
+
 export const LoginAsync = createAsyncThunk(
   "POST_LOGIN",
-  async (formData: any, thunkAPI) => {
+  async (formData: loginDataType, thunkAPI) => {
     return await axios({
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -26,12 +37,11 @@ export const LoginAsync = createAsyncThunk(
 );
 export const getUserAsync = createAsyncThunk(
   "GET_USERINFO",
-  async (data: any, thunkAPI) => {
-    const { access_token } = data;
+  async (token: string) => {
     return await axios({
       headers: {
         "Access-Control-Allow-Origin": "*",
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${token}`,
       },
       url: "http://ec2-3-37-207-126.ap-northeast-2.compute.amazonaws.com:9999/api/users",
       method: "get",
@@ -47,7 +57,7 @@ export const getUserAsync = createAsyncThunk(
 );
 export const signUpAsync = createAsyncThunk(
   "POST_SIGNUP",
-  async (formData: any, thunkAPI) => {
+  async (formData: signUpDataType) => {
     return await axios({
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

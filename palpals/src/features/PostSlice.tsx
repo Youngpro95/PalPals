@@ -2,9 +2,14 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import axios from "axios";
 
+interface postsFormData {
+  title: string;
+  content: string;
+}
+
 export const PostContentAsync = createAsyncThunk(
   "POST_CONTENT",
-  async (formData: any, thunkAPI) => {
+  async (formData: postsFormData, thunkAPI) => {
     return await axios({
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -53,9 +58,6 @@ export const writePosts = createSlice({
   reducers: {
     onPost: (state, action: PayloadAction<any>) => {
       state.data.push(action.payload.data.response);
-      console.log(state.data);
-      // state.authenticated = false;
-      // state.nickname =''
     },
     onReset: (state) => {
       state.data = [];
@@ -72,6 +74,6 @@ export const writePosts = createSlice({
 });
 
 export const { onPost, onReset } = writePosts.actions;
-export const postData = (state: RootState) => state.write.data;
+export const postDatas = (state: RootState) => state.write.data;
 
 export default writePosts.reducer;

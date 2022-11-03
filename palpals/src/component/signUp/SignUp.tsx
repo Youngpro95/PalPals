@@ -1,9 +1,15 @@
 import { useRef } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { useAppDispatch } from "../../app/hooks";
 import { signUpAsync } from "../../features/LoginSlice";
+interface formDataType{
+  email : string
+  password : string
+  confirmPassword : string
+  nickname : string
+}
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
@@ -14,8 +20,8 @@ const SignUp = () => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (formData: any) => {
+  } = useForm<formDataType>();
+  const onSubmit : SubmitHandler<formDataType>= (formData) => {
     dispatch(signUpAsync(formData)).then(
       (res) => res.meta.requestStatus === "fulfilled" && navigate(-1)
     );

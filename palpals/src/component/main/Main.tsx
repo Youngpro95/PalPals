@@ -6,12 +6,12 @@ import {
   nicknameData,
   onLogout,
 } from "../../features/LoginSlice";
-import { onReset, postData } from "../../features/PostSlice";
+import { onReset, postDatas } from "../../features/PostSlice";
 
 const Main = () => {
   const auth = useAppSelector(authenticated);
   const nickname = useAppSelector(nicknameData);
-  const contentData = useAppSelector(postData);
+  const contentData = useAppSelector(postDatas);
   const dispatch = useAppDispatch();
   const onClickLogout = () => {
     sessionStorage.removeItem("access_token");

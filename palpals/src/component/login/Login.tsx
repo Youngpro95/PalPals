@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
 import { LoginAsync } from "../../features/LoginSlice";
+
+interface formDataType {
+  email: string;
+  password: string;
+}
 
 function Login() {
   const {
@@ -11,10 +16,10 @@ function Login() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm();
+  } = useForm<formDataType>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const onSubmit = (formData: any) => {
+  const onSubmit: SubmitHandler<formDataType> = (formData) => {
     dispatch(LoginAsync(formData)).then((res) => {
       return res.payload.status === 201
         ? (alert("로그인 성공"),

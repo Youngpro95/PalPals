@@ -1,18 +1,22 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAppDispatch } from "../../app/hooks";
 import { PostContentAsync } from "../../features/PostSlice";
+
+interface formDataType {
+  title: string;
+  content: string;
+}
 
 const Write = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<formDataType>();
   const dispatch = useAppDispatch();
-  const onSubmit = (formData: any) => {
-    console.log(formData);
+  const onSubmit: SubmitHandler<formDataType> = (formData) => {
     dispatch(PostContentAsync(formData)).then((res) => {
       return res.payload.status === 201
         ? (navigate(-1), alert("게시글이 등록되었습니다."))
